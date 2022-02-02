@@ -1,0 +1,40 @@
+### all ignore ###
+/*
+/.**
+
+### not ignore ###
+!/.config
+# fish
+!/.config/fish
+!/.config/fish/*.fish
+!/.config/fish/fish_plugins
+!/.config/fish/fish_variables
+!/.config/fish/completions
+/.config/fish/completions/**
+!/.config/fish/functions
+!/.config/fish/functions/fish_user_key_bindings.fish
+!/.config/fish/functions/peco_select_history.fish
+!/.config/fish/functions/peco_change_directory.fish
+# nvim
+!/.config/nvim
+!/.config/nvim/after
+!/.config/nvim/after/**
+!/.config/nvim/colors
+!/.config/nvim/colors/**
+!/.config/nvim/*.vim
+!/.config/nvim/pack
+/.config/nvim/pack/**
+# other
+!/.bin/
+!/.bin/**
+!/.tmux.conf
+!/.tmux.conf.osx
+!/.tmux.powerline.conf
+!/.gitignore_global
+!/.gitconfig_shared
+
+!/README.md
+!/LICENSE
+!.gitignore
+!.gitkeep
+
