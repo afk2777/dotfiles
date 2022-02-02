@@ -32,6 +32,7 @@
 !/.tmux.powerline.conf
 !/.gitignore_global
 !/.gitconfig_shared
+!/install.sh
 
 !/README.md
 !/LICENSE
