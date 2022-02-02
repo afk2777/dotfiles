@@ -36,6 +36,7 @@
 
 !/README.md
 !/LICENSE
+!.gitconfig
 !.gitignore
 !.gitkeep
 
