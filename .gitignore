@@ -24,6 +24,12 @@
 !/.config/nvim/*.vim
 !/.config/nvim/pack
 /.config/nvim/pack/**
+# lvim
+!/.config/lvim
+!/.config/lvim/config.lua
+!/.config/lvim/plugin
+/.config/lvim/plugin/**
+
 # other
 !/.bin/
 !/.bin/**
