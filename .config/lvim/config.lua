@@ -15,8 +15,27 @@ lvim.colorscheme = "onedarker"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
+
 -- add your own keymapping
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.keys.normal_mode["ss"] = ":split<cr><C-w>j"
+lvim.keys.normal_mode["sv"] = ":vsplit<cr><C-w>l"
+lvim.keys.normal_mode["sh"] = "<C-w>h"
+lvim.keys.normal_mode["sk"] = "<C-w>k"
+lvim.keys.normal_mode["sj"] = "<C-w>j"
+lvim.keys.normal_mode["sl"] = "<C-w>l"
+lvim.keys.normal_mode["<leader>sv"] = ":source $MYVIMRC<cr>"
+lvim.keys.insert_mode["<C-f>"] = "<right>"
+lvim.keys.insert_mode["<C-b>"] = "<left>"
+lvim.keys.insert_mode["<C-p>"] = "<up>"
+lvim.keys.insert_mode["<C-n>"] = "<down>"
+lvim.keys.insert_mode["<C-d>"] = "<delete>"
+lvim.keys.insert_mode["<C-e>"] = "<end>"
+lvim.keys.insert_mode["<C-a>"] = "<home>"
+
+-- IPython key map
+lvim.keys.normal_mode["si"] = ":SlimeSend1 ipython --matplotlib<cr>"
+lvim.keys.normal_mode["ri"] = ":IPythonCellExecuteCell<cr>"
+
 -- unmap a default keymapping
 -- lvim.keys.normal_mode["<C-Up>"] = false
 -- edit a default keymapping
@@ -81,12 +100,12 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- generic LSP settings
 
--- ---@usage disable automatic installation of servers
--- lvim.lsp.automatic_servers_installation = false
+---@usage disable automatic installation of servers
+lvim.lsp.automatic_servers_installation = false
 
--- ---@usage Select which servers should be configured manually. Requires `:LvimCacheRest` to take effect.
+---@usage Select which servers should be configured manually. Requires `:LvimCacheRest` to take effect.
 -- See the full default list `:lua print(vim.inspect(lvim.lsp.override))`
--- vim.list_extend(lvim.lsp.override, { "pyright" })
+vim.list_extend(lvim.lsp.override, { "pyright" })
 
 -- ---@usage setup a server -- see: https://www.lunarvim.org/languages/#overriding-the-default-configuration
 -- local opts = {} -- check the lspconfig documentation for a list of all possible options
@@ -102,48 +121,63 @@ lvim.builtin.treesitter.highlight.enabled = true
 --   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 -- end
 
--- -- set a formatter, this will override the language server formatting capabilities (if it exists)
--- local formatters = require "lvim.lsp.null-ls.formatters"
--- formatters.setup {
---   { command = "black", filetypes = { "python" } },
---   { command = "isort", filetypes = { "python" } },
---   {
---     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
---     command = "prettier",
---     ---@usage arguments to pass to the formatter
---     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
---     extra_args = { "--print-with", "100" },
---     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
---     filetypes = { "typescript", "typescriptreact" },
---   },
--- }
+-- set a formatter, this will override the language server formatting capabilities (if it exists)
+local formatters = require "lvim.lsp.null-ls.formatters"
+formatters.setup {
+  { command = "black", filetypes = { "python" } },
+  { command = "isort", filetypes = { "python" } },
+  {
+    -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+    command = "prettier",
+    ---@usage arguments to pass to the formatter
+    -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+    extra_args = { "--print-with", "100" },
+    ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+    filetypes = { "typescript", "typescriptreact" },
+  },
+}
 
--- -- set additional linters
--- local linters = require "lvim.lsp.null-ls.linters"
--- linters.setup {
---   { command = "flake8", filetypes = { "python" } },
---   {
---     -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
---     command = "shellcheck",
---     ---@usage arguments to pass to the formatter
---     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
---     extra_args = { "--severity", "warning" },
---   },
---   {
---     command = "codespell",
---     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
---     filetypes = { "javascript", "python" },
---   },
--- }
+-- set additional linters
+local linters = require "lvim.lsp.null-ls.linters"
+linters.setup {
+  {
+    command = "flake8",
+    filetypes = { "python" },
+    extra_args = { "--max-line-length", "100", "--ignore", "E265" },
+
+  },
+  {
+    -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+    command = "shellcheck",
+    ---@usage arguments to pass to the formatter
+    -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+    extra_args = { "--severity", "warning" },
+  },
+  {
+    command = "codespell",
+    ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+    filetypes = { "javascript", "python" },
+  },
+}
 
 -- Additional Plugins
--- lvim.plugins = {
---     {"folke/tokyonight.nvim"},
---     {
---       "folke/trouble.nvim",
---       cmd = "TroubleToggle",
---     },
--- }
+lvim.plugins = {
+    -- IPython
+    {
+      "jpalardy/vim-slime",
+      cmd = {'SlimeSend1'},
+      config = function ()
+        vim.cmd ("let g:slime_target = 'tmux'")
+        vim.cmd ("let g:slime_python_ipython = 1")
+        vim.cmd ("let g:slime_default_config = {'socket_name': get(split($TMUX, ','), 0), 'target_pane': '{top-right}' }")
+        vim.cmd ("let g:slime_dont_ask_default = 1")
+      end,
+    },
+    {
+      "hanschen/vim-ipython-cell",
+      cmd = {'IPythonCellExecuteCell'},
+     }
+}
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- lvim.autocommands.custom_groups = {
