@@ -22,8 +22,10 @@
 !/.config/nvim/colors
 !/.config/nvim/colors/**
 !/.config/nvim/*.vim
-!/.config/nvim/pack
-/.config/nvim/pack/**
+!/.config/nvim/plugin
+!/.config/nvim/lua
+!/.config/nvim/lua/**
+/.config/nvim/plugin/**
 # lvim
 !/.config/lvim
 !/.config/lvim/config.lua

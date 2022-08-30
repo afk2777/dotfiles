@@ -50,13 +50,13 @@ lvim.builtin.which_key.mappings["e"] = nil
 -- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
 local _, actions = pcall(require, "telescope.actions")
 lvim.builtin.telescope.defaults.mappings = {
---   -- for input mode
---   i = {
---     ["<C-j>"] = actions.move_selection_next,
---     ["<C-k>"] = actions.move_selection_previous,
---     ["<C-n>"] = actions.cycle_history_next,
---     ["<C-p>"] = actions.cycle_history_prev,
---   },
+  --   -- for input mode
+  --   i = {
+  --     ["<C-j>"] = actions.move_selection_next,
+  --     ["<C-k>"] = actions.move_selection_previous,
+  --     ["<C-n>"] = actions.cycle_history_next,
+  --     ["<C-p>"] = actions.cycle_history_prev,
+  --   },
   -- for normal mode
   n = {
     ["<C-j>"] = actions.move_selection_next,
@@ -128,6 +128,15 @@ require("lvim.lsp.manager").setup("pyright", opts)
 --   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 -- end
 
+--Enable (broadcasting) snippet capability for completion
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+require 'lspconfig'.html.setup {
+  cmd = { "html-languageserver", "--stdio" },
+  capabilities = capabilities,
+}
+
 -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
@@ -140,7 +149,7 @@ formatters.setup {
     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
     extra_args = { "--print-with", "100" },
     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-    filetypes = { "typescript", "typescriptreact" },
+    filetypes = { "html", "typescript", "typescriptreact" },
   },
 }
 
@@ -169,38 +178,38 @@ linters.setup {
 
 -- Additional Plugins
 lvim.plugins = {
-    -- IPython
-    {
-      "jpalardy/vim-slime",
-      cmd = {'SlimeSend1'},
-      config = function ()
-        vim.cmd ("let g:slime_target = 'tmux'")
-        vim.cmd ("let g:slime_python_ipython = 1")
-        vim.cmd ("let g:slime_default_config = {'socket_name': get(split($TMUX, ','), 0), 'target_pane': '{top-right}' }")
-        vim.cmd ("let g:slime_dont_ask_default = 1")
-      end,
-    },
-    {
-      "hanschen/vim-ipython-cell",
-      cmd = {'IPythonCellExecuteCell'},
-    },
-    -- ranger
-    {
-       "kevinhwang91/rnvimr",
-         cmd = "RnvimrToggle",
-         config = function()
-          vim.g.rnvimr_draw_border = 1
-          vim.g.rnvimr_pick_enable = 1
-          vim.g.rnvimr_bw_enable = 1
-          end,
-    },
-    -- defx
-    "kristijanhusak/defx-git",
-    "kristijanhusak/defx-icons",
-    {
-      "Shougo/defx.nvim",
-       config = function()
-          vim.cmd ([[
+  -- IPython
+  {
+    "jpalardy/vim-slime",
+    cmd = { 'SlimeSend1' },
+    config = function()
+      vim.cmd("let g:slime_target = 'tmux'")
+      vim.cmd("let g:slime_python_ipython = 1")
+      vim.cmd("let g:slime_default_config = {'socket_name': get(split($TMUX, ','), 0), 'target_pane': '{top-right}' }")
+      vim.cmd("let g:slime_dont_ask_default = 1")
+    end,
+  },
+  {
+    "hanschen/vim-ipython-cell",
+    cmd = { 'IPythonCellExecuteCell' },
+  },
+  -- ranger
+  {
+    "kevinhwang91/rnvimr",
+    cmd = "RnvimrToggle",
+    config = function()
+      vim.g.rnvimr_draw_border = 1
+      vim.g.rnvimr_pick_enable = 1
+      vim.g.rnvimr_bw_enable = 1
+    end,
+  },
+  -- defx
+  "kristijanhusak/defx-git",
+  "kristijanhusak/defx-icons",
+  {
+    "Shougo/defx.nvim",
+    config = function()
+      vim.cmd([[
           nnoremap <silent>sf :<C-u>Defx -listed -resume
                 \ `expand('%:p:h')` -search=`expand('%:p')`<CR>
           nnoremap <silent>fi :<C-u>Defx -new `expand('%:p:h')` -search=`expand('%:p')`<CR>
@@ -309,16 +318,16 @@ lvim.plugins = {
             \ })
 
           ]])
-        end,
-    },
-    -- outline
-    {
-      "simrat39/symbols-outline.nvim",
-        cmd = "SymbolsOutline",
-    },
-    {
-      "machakann/vim-sandwich"
-    },
+    end,
+  },
+  -- outline
+  {
+    "simrat39/symbols-outline.nvim",
+    cmd = "SymbolsOutline",
+  },
+  {
+    "machakann/vim-sandwich"
+  },
 }
 
 -- autocommands (https://neovim.io/doc/user/autocmd.html)
