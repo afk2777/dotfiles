@@ -33,6 +33,10 @@ set -gx PATH node_modules/.bin $PATH
 set -g GOPATH $HOME/go
 set -gx PATH $GOPATH/bin $PATH
 
+function rename_wezterm_title
+  printf "\033]1337;SetUserVar=%s=%s\007" panetitle (echo $argv | base64)
+end
+
 # NVM
 function __check_rvm --on-variable PWD --description 'Do nvm stuff'
   status --is-command-substitution; and return

@@ -235,20 +235,22 @@ function M.setup()
       end,
     })
     -- IPython
+    --[[ use({ ]]
+    --[[   "jpalardy/vim-slime", ]]
+    --[[ }) ]]
     use({
-      "jpalardy/vim-slime",
-      cmd = { "SlimeSend1" },
+      "jpalardy/vim-slime-ext-plugins",
       setup = function()
-        --[[ vim.g.slime_target = "tmux" ]]
-        --[[ vim.g.slime_python_ipython = 1 ]]
-        --[[ vim.g.slime_default_config = "{'socket_name': get(split($TMUX, ','), 0), 'target_pane': '{top-right}'}" ]]
-        --[[ vim.g.slime_dont_ask_default = 1 ]]
-        vim.cmd("let g:slime_target = 'tmux'")
-        vim.cmd("let g:slime_python_ipython = 1")
-        vim.cmd(
-          "let g:slime_default_config = {'socket_name': get(split($TMUX, ','), 0), 'target_pane': '{top-right}' }"
-        )
-        vim.cmd("let g:slime_dont_ask_default = 1")
+        --[[   "let g:slime_default_config = {'socket_name': get(split($TMUX, ','), 0), 'target_pane': '{top-right}' }" ]]
+        vim.cmd("let g:ipython_cell_send_ctrl_c = 0")
+      end,
+    })
+    use({
+      "Klafyvel/vim-slime-ext-wezterm",
+      config = function()
+        vim.g.slime_bracketed_paste = 0
+        vim.g.slime_target_send = "slime_wezterm#send"
+        vim.g.slime_target_config = "slime_wezterm#config"
       end,
     })
     use({
@@ -269,7 +271,24 @@ function M.setup()
       requires = "nvim-lua/plenary.nvim",
       cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles" },
     })
-    -- Bootstrap Neovim
+    -- nvim on jupyter notebook
+    use({ "dccsillag/magma-nvim", run = ":UpdateRemotePlugins" })
+    -- easy motion
+    use({
+      "phaazon/hop.nvim",
+      branch = "v2", -- optional but strongly recommended
+      config = function()
+        -- you can configure Hop the way you like here; see :h hop-config
+        require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
+      end,
+    })
+    use({
+      "akinsho/toggleterm.nvim",
+      tag = "*",
+      config = function()
+        require("toggleterm").setup()
+      end,
+    })
     if packer_bootstrap then
       print("Neovim restart is required after installation!")
       require("packer").sync()

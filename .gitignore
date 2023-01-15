@@ -34,6 +34,15 @@
 !/.config/lvim/plugin
 /.config/lvim/plugin/**
 
+# wezterm
+!/.config/wezterm
+!/.config/wezterm/wezterm.lua
+!/.config/wezterm/keybinds.lua
+!/.config/wezterm/utils.lua
+!/.config/wezterm/on.lua
+!/.config/wezterm/colors
+!/.config/wezterm/colors/nordfox.toml
+
 # other
 !/.bin/
 !/.bin/**
