@@ -28,11 +28,6 @@
 !/.config/nvim/snippets
 !/.config/nvim/snippets/**
 /.config/nvim/plugin/**
-# lvim
-!/.config/lvim
-!/.config/lvim/config.lua
-!/.config/lvim/plugin
-/.config/lvim/plugin/**
 
 # wezterm
 !/.config/wezterm

@@ -103,7 +103,7 @@ local config = {
   -- enable_wayland = enable_wayland(),
   -- https://github.com/wez/wezterm/issues/1772
   enable_wayland = false,
-  color_scheme = "nordfox",
+  color_scheme = "iceberg-dark",
   color_scheme_dirs = { os.getenv("HOME") .. "/.config/wezterm/colors/" },
   hide_tab_bar_if_only_one_tab = false,
   adjust_window_size_when_changing_font_size = false,
