@@ -1,10 +1,10 @@
 local M = {}
 
 function M.setup(servers, options)
-  local lspconfig = require "lspconfig"
-  local icons = require "config.icons"
+  local lspconfig = require("lspconfig")
+  local icons = require("config.icons")
 
-  require("mason").setup {
+  require("mason").setup({
     ui = {
       icons = {
         package_installed = icons.server_installed,
@@ -12,30 +12,31 @@ function M.setup(servers, options)
         package_uninstalled = icons.server_uninstalled,
       },
     },
-  }
+  })
 
-  require("mason-tool-installer").setup {
+  require("mason-tool-installer").setup({
     ensure_installed = { "codelldb", "stylua", "shfmt", "shellcheck", "prettierd" },
     auto_update = false,
     run_on_start = true,
-  }
+  })
 
-  require("mason-lspconfig").setup {
+  require("mason-lspconfig").setup({
     ensure_installed = vim.tbl_keys(servers),
     automatic_installation = false,
-  }
+  })
 
-  require("mason-lspconfig").setup_handlers {
+  require("mason-lspconfig").setup_handlers({
     function(server_name)
       local opts = vim.tbl_deep_extend("force", options, servers[server_name] or {})
-      lspconfig[server_name].setup { opts }
+      lspconfig[server_name].setup({ opts })
     end,
     ["jdtls"] = function()
       -- print "jdtls is handled by nvim-jdtls"
     end,
-    ["sumneko_lua"] = function()
-      local opts = vim.tbl_deep_extend("force", options, servers["sumneko_lua"] or {})
-      lspconfig.sumneko_lua.setup(require("lua-dev").setup { opts })
+    ["lua_ls"] = function()
+      local opts = vim.tbl_deep_extend("force", options, servers["lua_ls"] or {})
+      require("neodev").setup({})
+      lspconfig.lua_ls.setup(opts)
     end,
     -- ["rust_analyzer"] = function()
     --   local opts = vim.tbl_deep_extend("force", options, servers["rust_analyzer"] or {})
@@ -71,13 +72,13 @@ function M.setup(servers, options)
     -- end,
     ["tsserver"] = function()
       local opts = vim.tbl_deep_extend("force", options, servers["tsserver"] or {})
-      require("typescript").setup {
+      require("typescript").setup({
         disable_commands = false,
         debug = false,
         server = opts,
-      }
+      })
     end,
-  }
+  })
 end
 
 return M

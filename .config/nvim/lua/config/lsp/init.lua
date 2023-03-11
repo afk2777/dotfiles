@@ -29,7 +29,7 @@ local servers = {
       typeCheckingMode = "off",
     },
   },
-  sumneko_lua = {
+  lua_ls = {
     settings = {
       Lua = {
         runtime = {
@@ -40,23 +40,16 @@ local servers = {
         },
         diagnostics = {
           -- Get the language server to recognize the `vim` global
-          globals = { "vim", "describe", "it", "before_each", "after_each", "packer_plugins" },
+          globals = { "vim", "describe", "it", "before_each", "after_each", "packer_plugins", "MiniTest" },
           -- disable = { "lowercase-global", "undefined-global", "unused-local", "unused-vararg", "trailing-space" },
         },
         workspace = {
-          -- Make the server aware of Neovim runtime files
-          library = {
-            [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-            [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-          },
-          -- library = vim.api.nvim_get_runtime_file("", true),
-          maxPreload = 2000,
-          preloadFileSize = 50000,
+          checkThirdParty = false,
         },
-        completion = { callSnippet = "Both" },
+        completion = { callSnippet = "Replace" },
         telemetry = { enable = false },
         hint = {
-          enable = true,
+          enable = false,
         },
       },
     },
@@ -162,7 +155,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
     "additionalTextEdits",
   },
 }
-M.capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities) -- for nvim-cmp
+M.capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities) -- for nvim-cmp
 
 local opts = {
   on_attach = M.on_attach,
@@ -183,7 +176,7 @@ function M.setup()
   require("config.lsp.installer").setup(servers, opts)
 
   -- Inlay hints
-  require("config.lsp.inlay-hints").setup()
+  --[[ require("config.lsp.inlay-hints").setup() ]]
 end
 
 local diagnostics_active = true

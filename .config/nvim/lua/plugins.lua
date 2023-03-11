@@ -87,8 +87,50 @@ function M.setup()
     use({
       "glepnir/lspsaga.nvim",
       cmd = { "Lspsaga" },
+      branch = "main",
       config = function()
-        require("lspsaga").init_lsp_saga()
+        require("lspsaga").setup({})
+      end,
+      requires = {
+        { "nvim-tree/nvim-web-devicons" },
+        --Please make sure you install markdown and markdown_inline parser
+        { "nvim-treesitter/nvim-treesitter" },
+      },
+    })
+    -- Refactoring
+    use({
+      "ThePrimeagen/refactoring.nvim",
+      module = { "refactoring", "telescope" },
+      keys = { [[<leader>r]] },
+      config = function()
+        require("config.refactoring").setup()
+      end,
+    })
+    use({ "python-rope/ropevim", run = "pip install ropevim", disable = true })
+    use({
+      "kevinhwang91/nvim-bqf",
+      ft = "qf",
+      disable = false,
+      config = function()
+        require("bqf").setup()
+      end,
+    })
+    use({ "kevinhwang91/nvim-hlslens", event = "BufReadPre", disable = true })
+    use({ "nvim-pack/nvim-spectre", module = "spectre", keys = { "<leader>s" } })
+    use({
+      "https://gitlab.com/yorickpeterse/nvim-pqf",
+      event = "BufReadPre",
+      config = function()
+        require("pqf").setup()
+      end,
+    })
+    use({
+      "andrewferrier/debugprint.nvim",
+      module = { "debugprint" },
+      keys = { "g?p", "g?P", "g?v", "g?V", "g?o", "g?O" },
+      cmd = { "DeleteDebugPrints" },
+      config = function()
+        require("debugprint").setup()
       end,
     })
     -- Code docStrings
@@ -210,6 +252,7 @@ function M.setup()
       end,
     })
     -- git
+    use({ "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" })
     use({
       "lewis6991/gitsigns.nvim",
       event = "BufReadPre",
@@ -225,6 +268,11 @@ function M.setup()
         require("config.git").setup()
       end,
     }) -- For git blame & browse
+    use({
+      "sindrets/diffview.nvim",
+      requires = "nvim-lua/plenary.nvim",
+      cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles" },
+    })
     -- Better code Comment
     use("JoosepAlviste/nvim-ts-context-commentstring")
     use({
@@ -265,14 +313,6 @@ function M.setup()
         require("todo-comments").setup()
       end,
     })
-    -- Diffview
-    use({
-      "sindrets/diffview.nvim",
-      requires = "nvim-lua/plenary.nvim",
-      cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles" },
-    })
-    -- nvim on jupyter notebook
-    use({ "dccsillag/magma-nvim", run = ":UpdateRemotePlugins" })
     -- easy motion
     use({
       "phaazon/hop.nvim",
