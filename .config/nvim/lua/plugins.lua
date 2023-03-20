@@ -89,7 +89,11 @@ function M.setup()
       cmd = { "Lspsaga" },
       branch = "main",
       config = function()
-        require("lspsaga").setup({})
+        require("lspsaga").setup({
+          code_action_lightbulb = {
+            enable = false,
+          },
+        })
       end,
       requires = {
         { "nvim-tree/nvim-web-devicons" },
@@ -282,10 +286,6 @@ function M.setup()
         require("config.comment").setup()
       end,
     })
-    -- IPython
-    --[[ use({ ]]
-    --[[   "jpalardy/vim-slime", ]]
-    --[[ }) ]]
     use({
       "jpalardy/vim-slime-ext-plugins",
       setup = function()
@@ -302,7 +302,7 @@ function M.setup()
       end,
     })
     use({
-      "hanschen/vim-ipython-cell",
+      "hanschen/im-ipython-cell",
       cmd = { "IPythonCellExecuteCell" },
     })
     -- TODO

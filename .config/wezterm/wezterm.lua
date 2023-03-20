@@ -90,6 +90,7 @@ local config = {
   -- 		font = wezterm.font("Cica", { weight = "Bold", italic = true }),
   -- 	},
   -- },
+  window_decorations = "RESIZE",
   check_for_updates = false,
   use_ime = true,
   -- ime_preedit_rendering = "System",

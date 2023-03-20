@@ -61,8 +61,11 @@ if test -f $LOCAL_CONFIG
   source $LOCAL_CONFIG
 end
 
+# python プロンプトの左側の環境名表示を消す
+set -g VIRTUAL_ENV_DISABLE_PROMPT 1
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-eval /Users/yamatoyoshikawa/miniforge3/bin/conda "shell.fish" "hook" $argv | source
+# eval /Users/yamatoyoshikawa/miniforge3/bin/conda "shell.fish" "hook" $argv | source
 # <<< conda initialize <<<
 
