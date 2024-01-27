@@ -48,48 +48,19 @@ local function load_local_config(module)
     return {}
   end
   return dofile(m)
-  -- local ok, _ = pcall(require, "local")
-  -- if not ok then
-  -- 	return {}
-  -- end
-  -- return require("local")
 end
 
 local local_config = load_local_config("local")
-
--- local local_config = {
--- 	ssh_domains = {
--- 		{
--- 			-- This name identifies the domain
--- 			name = "my.server",
--- 			-- The address to connect to
--- 			remote_address = "192.168.8.31",
--- 			-- The username to use on the remote host
--- 			username = "katayama",
--- 		},
--- 	},
--- }
--- return local_config
-
 ---------------------------------------------------------------
 --- Config
 ---------------------------------------------------------------
+-- The filled in variant of the < symbol
+local SOLID_LEFT_ARROW = wezterm.nerdfonts.pl_right_hard_divider
+
+-- The filled in variant of the > symbol
+local SOLID_RIGHT_ARROW = wezterm.nerdfonts.pl_left_hard_divider
+
 local config = {
-  --[[ font = wezterm.font("Cica"), ]]
-  --[[ font_size = 10.0, ]]
-  --[[ font = wezterm.font("UDEV Gothic 35NFLG"), ]]
-  --[[ font_size = 9.0, ]]
-  -- font_rules = {
-  -- 	{
-  -- 		italic = true,
-  -- 		font = wezterm.font("Cica", { italic = true }),
-  -- 	},
-  -- 	{
-  -- 		italic = true,
-  -- 		intensity = "Bold",
-  -- 		font = wezterm.font("Cica", { weight = "Bold", italic = true }),
-  -- 	},
-  -- },
   window_decorations = "RESIZE",
   check_for_updates = false,
   use_ime = true,
@@ -109,6 +80,7 @@ local config = {
   hide_tab_bar_if_only_one_tab = false,
   adjust_window_size_when_changing_font_size = false,
   selection_word_boundary = " \t\n{}[]()\"'`,;:│=&!%",
+  enable_kitty_graphics = true,
   window_padding = {
     left = 0,
     right = 0,
@@ -127,16 +99,11 @@ local config = {
       -- inactive_tab_hover = { bg_color = scheme.ansi[1], fg_color = "#FCE8C3" },
     },
   },
-  tab_bar_at_bottom = true,
+  show_tab_index_in_tab_bar = true,
+  tab_max_width = 500,
+  tab_bar_at_bottom = false,
   -- window_background_opacity = 0.8,
   disable_default_key_bindings = true,
-  -- visual_bell = {
-  -- 	fade_in_function = "EaseIn",
-  -- 	fade_in_duration_ms = 150,
-  -- 	fade_out_function = "EaseOut",
-  -- 	fade_out_duration_ms = 150,
-  -- },
-  -- separate <Tab> <C-i>
   enable_csi_u_key_encoding = true,
   leader = { key = "t", mods = "CTRL" },
   keys = keybinds.create_keybinds(),
