@@ -25,6 +25,7 @@ set -gx PATH bin $PATH
 set -gx PATH ~/bin $PATH
 set -gx PATH ~/.local/bin $PATH
 set -gx PATH $PATH /opt/homebrew/bin
+set -gx PATH $PATH $HOME/.nodebrew/current/bin
 
 # NodeJS
 set -gx PATH node_modules/.bin $PATH
@@ -34,31 +35,31 @@ set -g GOPATH $HOME/go
 set -gx PATH $GOPATH/bin $PATH
 
 function rename_wezterm_title
-  printf "\033]1337;SetUserVar=%s=%s\007" panetitle (echo $argv | base64)
+    printf "\033]1337;SetUserVar=%s=%s\007" panetitle (echo $argv | base64)
 end
 
 # NVM
 function __check_rvm --on-variable PWD --description 'Do nvm stuff'
-  status --is-command-substitution; and return
+    status --is-command-substitution; and return
 
-  if test -f .nvmrc; and test -r .nvmrc;
-    nvm use
-  else
-  end
+    if test -f .nvmrc; and test -r .nvmrc
+        nvm use
+    else
+    end
 end
 
 switch (uname)
-  case Darwin
-    source (dirname (status --current-filename))/config-osx.fish
-  case Linux
-    source (dirname (status --current-filename))/config-linux.fish
-  case '*'
-    source (dirname (status --current-filename))/config-windows.fish
+    case Darwin
+        source (dirname (status --current-filename))/config-osx.fish
+    case Linux
+        source (dirname (status --current-filename))/config-linux.fish
+    case '*'
+        source (dirname (status --current-filename))/config-windows.fish
 end
 
 set LOCAL_CONFIG (dirname (status --current-filename))/config-local.fish
 if test -f $LOCAL_CONFIG
-  source $LOCAL_CONFIG
+    source $LOCAL_CONFIG
 end
 
 # python プロンプトの左側の環境名表示を消す
@@ -71,4 +72,3 @@ status --is-interactive; and source (pyenv init -|psub)
 # !! Contents within this block are managed by 'conda init' !!
 # eval /Users/yamatoyoshikawa/miniforge3/bin/conda "shell.fish" "hook" $argv | source
 # <<< conda initialize <<<
-
