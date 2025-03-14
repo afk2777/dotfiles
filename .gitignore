@@ -34,6 +34,13 @@
 !/.config/wezterm/colors
 !/.config/wezterm/colors/nordfox.toml
 
+# karabiner
+!/.config/karabiner
+!/.config/karabiner/karabiner.json
+!/.config/karabiner/assets
+!/.config/karabiner/assets/complex_modifications
+!/.config/karabiner/assets/complex_modifications/*.json
+
 # other
 !/.bin/
 !/.bin/**
