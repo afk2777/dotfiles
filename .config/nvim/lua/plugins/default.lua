@@ -31,7 +31,7 @@ return {
     end,
   },
   {
-    "telescope.nvim",
+    "nvim-telescope/telescope.nvim",
     dependencies = {
       {
         "nvim-telescope/telescope-fzf-native.nvim",
@@ -264,24 +264,18 @@ return {
     },
   },
 
-  -- use mini.starter instead of alpha
-  { import = "lazyvim.plugins.extras.ui.mini-starter" },
-
-  -- add jsonls and schemastore packages, and setup treesitter for json, json5 and jsonc
-  { import = "lazyvim.plugins.extras.lang.json" },
-
   -- add any tools you want to have installed below
-  {
-    "williamboman/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "stylua",
-        "shellcheck",
-        "shfmt",
-        "flake8",
-      },
-    },
-  },
+  -- {
+  --   "williamboman/mason.nvim",
+  --   opts = {
+  --     ensure_installed = {
+  --       "stylua",
+  --       "shellcheck",
+  --       "shfmt",
+  --       "flake8",
+  --     },
+  --   },
+  -- },
 
   -- then: setup supertab in cmp
   {

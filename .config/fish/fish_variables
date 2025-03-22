@@ -6,7 +6,7 @@ SETUVAR Z_CMD:z
 SETUVAR Z_DATA:/Users/yamatoyoshikawa/\x2elocal/share/z/data
 SETUVAR Z_DATA_DIR:/Users/yamatoyoshikawa/\x2elocal/share/z
 SETUVAR Z_EXCLUDE:\x5e/Users/yamatoyoshikawa\x24
-SETUVAR __fish_initialized:3100
+SETUVAR __fish_initialized:3800
 SETUVAR _fisher_jethrokuan_2F_z_files:/Users/yamatoyoshikawa/\x2econfig/fish/functions/__z\x2efish\x1e/Users/yamatoyoshikawa/\x2econfig/fish/functions/__z_add\x2efish\x1e/Users/yamatoyoshikawa/\x2econfig/fish/functions/__z_clean\x2efish\x1e/Users/yamatoyoshikawa/\x2econfig/fish/functions/__z_complete\x2efish\x1e/Users/yamatoyoshikawa/\x2econfig/fish/conf\x2ed/z\x2efish
 SETUVAR _fisher_jorgebucaran_2F_fisher_files:/Users/yamatoyoshikawa/\x2econfig/fish/functions/fisher\x2efish\x1e/Users/yamatoyoshikawa/\x2econfig/fish/completions/fisher\x2efish
 SETUVAR _fisher_oh_2D_my_2D_fish_2F_theme_2D_bobthefish_files:/Users/yamatoyoshikawa/\x2econfig/fish/functions/__bobthefish_colors\x2efish\x1e/Users/yamatoyoshikawa/\x2econfig/fish/functions/__bobthefish_display_colors\x2efish\x1e/Users/yamatoyoshikawa/\x2econfig/fish/functions/__bobthefish_glyphs\x2efish\x1e/Users/yamatoyoshikawa/\x2econfig/fish/functions/bobthefish_display_colors\x2efish\x1e/Users/yamatoyoshikawa/\x2econfig/fish/functions/fish_greeting\x2efish\x1e/Users/yamatoyoshikawa/\x2econfig/fish/functions/fish_mode_prompt\x2efish\x1e/Users/yamatoyoshikawa/\x2econfig/fish/functions/fish_prompt\x2efish\x1e/Users/yamatoyoshikawa/\x2econfig/fish/functions/fish_right_prompt\x2efish\x1e/Users/yamatoyoshikawa/\x2econfig/fish/functions/fish_title\x2efish
@@ -29,7 +29,7 @@ SETUVAR fish_color_operator:00a6b2
 SETUVAR fish_color_param:00afff
 SETUVAR fish_color_quote:999900
 SETUVAR fish_color_redirection:00afff
-SETUVAR fish_color_search_match:bryellow\x1e\x2d\x2dbackground\x3dbrblack
+SETUVAR fish_color_search_match:white\x1e\x2d\x2dbackground\x3dbrblack
 SETUVAR fish_color_selection:white\x1e\x2d\x2dbold\x1e\x2d\x2dbackground\x3dbrblack
 SETUVAR fish_color_status:red
 SETUVAR fish_color_user:brgreen
@@ -39,4 +39,5 @@ SETUVAR fish_pager_color_completion:normal
 SETUVAR fish_pager_color_description:B3A06D\x1eyellow
 SETUVAR fish_pager_color_prefix:normal\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
+SETUVAR fish_pager_color_selected_background:\x2dr
 SETUVAR fish_user_paths:/opt/homebrew/opt/openjdk/bin\x1e/Users/yamatoyoshikawa/\x2epoetry/bin

@@ -60,5 +60,5 @@ keymap.set("n", "<C-j>", function()
 end, opts)
 
 -- terminal mode
-keymap.del("t", "<C-h>", nil)
-keymap.del("t", "<C-k>", nil)
+-- keymap.del("t", "<C-h>", nil)
+-- keymap.del("t", "<C-k>", nil)
