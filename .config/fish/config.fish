@@ -72,3 +72,12 @@ status --is-interactive; and source (pyenv init -|psub)
 # !! Contents within this block are managed by 'conda init' !!
 # eval /Users/yamatoyoshikawa/miniforge3/bin/conda "shell.fish" "hook" $argv | source
 # <<< conda initialize <<<
+set -gx VOLTA_HOME "$HOME/.volta"
+set -gx PATH "$VOLTA_HOME/bin" $PATH
+
+# pnpm
+set -gx PNPM_HOME "/Users/yamatoyoshikawa/Library/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end
