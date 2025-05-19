@@ -45,53 +45,6 @@ create_autocmd('BufWritePre', {
   desc = 'Auto mkdir to save file'
 })
 
-vim.keymap.set('n', 'p', 'p`]', { desc = 'Paste and move the end' })
-vim.keymap.set('n', 'P', 'P`]', { desc = 'Paste and move the end' })
-
-vim.keymap.set('x', 'p', 'P', { desc = 'Paste without change register' })
-vim.keymap.set('x', 'P', 'p', { desc = 'Paste with change register' })
-
-vim.keymap.set({ 'n', 'x' }, 'x', '"_d', { desc = 'Delete into blackhole' })
-vim.keymap.set('n', 'X', '"_D', { desc = 'Delete into blackhole' })
-vim.keymap.set('o', 'x', 'd', { desc = 'Delete using x' })
-
-vim.keymap.set('c', '<c-b>', '<left>', { desc = 'Emacs like left' })
-vim.keymap.set('c', '<c-f>', '<right>', { desc = 'Emacs like right' })
-vim.keymap.set('c', '<c-a>', '<home>', { desc = 'Emacs like home' })
-vim.keymap.set('c', '<c-e>', '<end>', { desc = 'Emacs like end' })
-vim.keymap.set('c', '<c-h>', '<bs>', { desc = 'Emacs like bs' })
-vim.keymap.set('c', '<c-d>', '<del>', { desc = 'Emacs like del' })
-
-vim.keymap.set('n', '<space>;', '@:', { desc = 'Re-run the last command' })
-
-vim.keymap.set('n', '<space>w', '<cmd>write<cr>', { desc = 'Write' })
-
-vim.keymap.set({ 'n', 'x' }, 'so', ':source<cr>', { silent = true, desc = 'Source current script' })
-
-vim.keymap.set('c', '<c-n>', function()
-  return vim.bool_fn.wildmenumode() and '<c-n>' or '<down>'
-end, { expr = true, desc = 'Select next' })
-vim.keymap.set('c', '<c-p>', function()
-  return vim.bool_fn.wildmenumode() and '<c-p>' or '<up>'
-end, { expr = true, desc = 'Select previous' })
-
-vim.keymap.set('n', '<space>q', function()
-  if not pcall(vim.cmd.tabclose) then
-    vim.cmd.quit()
-  end
-end, { desc = 'Quit current tab or window' })
-
-vim.keymap.set('n', 'q:', '<nop>', { desc = 'Disable cmdwin' })
-
--- abbreviation only for ex-command
-local function abbrev_excmd(lhs, rhs, opts)
-  vim.keymap.set('ca', lhs, function()
-    return vim.fn.getcmdtype() == ':' and rhs or lhs
-  end, vim.tbl_extend('force', { expr = true }, opts))
-end
-
-abbrev_excmd('qw', 'wq', { desc = 'fix typo' })
-abbrev_excmd('lup', 'lua =', { desc = 'lua print' })
 
 -- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
 local path_package = vim.fn.stdpath('data') .. '/site/'
@@ -419,7 +372,7 @@ now(function()
   require('lsp')
 end)
 
-later(function()
+now(function()
   require('mini.fuzzy').setup()
   require('mini.completion').setup({
     lsp_completion = {
@@ -498,23 +451,35 @@ now(function()
   vim.api.nvim_create_user_command(
     'Files',
     function()
-      MiniFiles.open()
+      local path = vim.api.nvim_buf_get_name(0)  -- 現在バッファの絶対パス
+      if path == '' then path = nil end          -- 未保存バッファ対策
+      MiniFiles.open(path)
     end,
-    { desc = 'Open file exproler' }
+    { desc = 'Open file exproler FilesCurrentPath' }
   )
   vim.keymap.set('n', '<space>e', '<cmd>Files<cr>', { desc = 'Open file exproler' })
+
 end)
 
 later(function()
-  require('mini.pick').setup()
+  require('mini.pick').setup(
+    {
+      mappings = {
+        -- Ctrl-h を削除キーにする
+        delete_char = '<C-h>',   -- 1 文字消す（Backspace 相当）
+        -- もともと <C-h> に割り当てられていた横スクロールは別キーへ
+        scroll_left = '<M-h>',   -- 例：Alt-h
+      }
+    }
+  )
 
   vim.ui.select = MiniPick.ui_select
 
-  vim.keymap.set('n', '<space>f', function()
+  vim.keymap.set('n', ';f', function()
     MiniPick.builtin.files({ tool = 'git' })
   end, { desc = 'mini.pick.files' })
 
-  vim.keymap.set('n', '<space>b', function()
+  vim.keymap.set('n', ';b', function()
     local wipeout_cur = function()
       vim.api.nvim_buf_delete(MiniPick.get_picker_matches().current.bufnr, {})
     end
@@ -522,17 +487,6 @@ later(function()
     MiniPick.builtin.buffers({ include_current = false }, { mappings = buffer_mappings })
   end, { desc = 'mini.pick.buffers' })
 
-  require('mini.visits').setup()
-  vim.keymap.set('n', '<space>h', function()
-    require('mini.extra').pickers.visit_paths()
-  end, { desc = 'mini.extra.visit_paths' })
-
-  vim.keymap.set('c', 'h', function()
-    if vim.fn.getcmdtype() .. vim.fn.getcmdline() == ':h' then
-      return '<c-u>Pick help<cr>'
-    end
-    return 'h'
-  end, { expr = true, desc = 'mini.pick.help' })
 end)
 
 later(function()
@@ -560,10 +514,6 @@ later(function()
       idle_stop = 10,
     },
   })
-end)
-
-later(function()
-  require('mini.jump2d').setup()
 end)
 
 later(function()
