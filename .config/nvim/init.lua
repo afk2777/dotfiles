@@ -80,11 +80,20 @@ now(function()
   })
 end)
 
+-- formatter
 later(function()
-  add('https://github.com/vim-jp/vimdoc-ja')
-  -- Prefer Japanese as the help language
-  vim.opt.helplang:prepend('ja')
+  add('stevearc/conform.nvim')
+  require('conform').setup({
+    formatters_by_ft = { python = { 'black', 'isort' } },
+    format_on_save   = { lsp_fallback = true, timeout_ms = 3000 },
+  })
+
+  -- 手動フォーマット用キー
+  vim.keymap.set('n', '<leader>f', function()
+    require('conform').format()
+  end, { desc = 'Format buffer' })
 end)
+
 
 now(function()
   require('mini.statusline').setup()
@@ -137,16 +146,31 @@ end)
 
 now(function()
   local base16 = require('mini.base16')
-  local zenn_palette = base16.mini_palette(
-    '#0a2a2a', -- background
-    '#edf2f6', -- foreground
-    75         -- accent chroma
-  )
-  base16.setup({ palette = zenn_palette })
 
-  -- overwrite highlight WinSeparator
+  -- Tokyonight (night) の配色
+  local tokyonight_palette = {
+    base00 = '#1a1b26', -- 背景
+    base01 = '#16161e',
+    base02 = '#292e42', -- 選択背景
+    base03 = '#565f89', -- コメント
+    base04 = '#737aa2', -- ダーク前景
+    base05 = '#c0caf5', -- 通常前景
+    base06 = '#a9b1d6', -- 明るめ前景
+    base07 = '#d5d6db',
+    base08 = '#f7768e', -- red
+    base09 = '#ff9e64', -- orange
+    base0A = '#e0af68', -- yellow
+    base0B = '#9ece6a', -- green
+    base0C = '#7dcfff', -- cyan
+    base0D = '#7aa2f7', -- blue
+    base0E = '#bb9af7', -- purple
+    base0F = '#c53b53', -- extra
+  }
+
+  base16.setup({ palette = tokyonight_palette })
+
+  -- WinSeparator をコメント色にリンク
   vim.api.nvim_set_hl(0, 'WinSeparator', { link = 'Comment' })
-  -- call autocmd ColorScheme manually
   vim.api.nvim_exec_autocmds('ColorScheme', {})
 end)
 
@@ -451,14 +475,13 @@ now(function()
   vim.api.nvim_create_user_command(
     'Files',
     function()
-      local path = vim.api.nvim_buf_get_name(0)  -- 現在バッファの絶対パス
-      if path == '' then path = nil end          -- 未保存バッファ対策
+      local path = vim.api.nvim_buf_get_name(0) -- 現在バッファの絶対パス
+      if path == '' then path = nil end         -- 未保存バッファ対策
       MiniFiles.open(path)
     end,
     { desc = 'Open file exproler FilesCurrentPath' }
   )
   vim.keymap.set('n', '<space>e', '<cmd>Files<cr>', { desc = 'Open file exproler' })
-
 end)
 
 later(function()
@@ -466,13 +489,18 @@ later(function()
     {
       mappings = {
         -- Ctrl-h を削除キーにする
-        delete_char = '<C-h>',   -- 1 文字消す（Backspace 相当）
+        delete_char = '<C-h>', -- 1 文字消す（Backspace 相当）
         -- もともと <C-h> に割り当てられていた横スクロールは別キーへ
-        scroll_left = '<M-h>',   -- 例：Alt-h
+        scroll_left = '<M-h>', -- 例：Alt-h
       }
     }
   )
-
+  -- プロジェクトルートを推定（.git / package.json / pyproject.toml など）
+  local function project_root()
+    return vim.fs.dirname(
+      vim.fs.find({ '.git', 'package.json', 'pyproject.toml' }, { upward = true })[1]
+    ) or vim.uv.cwd()
+  end
   vim.ui.select = MiniPick.ui_select
 
   vim.keymap.set('n', ';f', function()
@@ -487,6 +515,13 @@ later(function()
     MiniPick.builtin.buffers({ include_current = false }, { mappings = buffer_mappings })
   end, { desc = 'mini.pick.buffers' })
 
+  vim.keymap.set('n', ';r', function()
+    require('mini.pick').builtin.grep_live({
+      cwd        = project_root(),
+      extra_args = { '--hidden', '--glob', '!.git' },
+      prompt     = 'Rg> ',
+    })
+  end, { desc = 'rgrep project' })
 end)
 
 later(function()
